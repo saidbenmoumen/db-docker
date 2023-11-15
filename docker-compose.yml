@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb:latest
+    command: --lower_case_table_names=2
+    volumes:
+      - "./data/db:/var/lib/mysql:delegated"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    volumes:
+      - ./config/phpmyadmin.ini:/usr/local/etc/php/conf.d/phpmyadmin.ini
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      - PMA_ARBITRARY=1
